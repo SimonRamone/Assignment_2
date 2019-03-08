@@ -49,8 +49,8 @@ typedef struct square{
  * such as a name and a color.
  */
 typedef struct player{
-    
-    
+    char name[20];
+    int playercolor;
 }player; 
 
 
