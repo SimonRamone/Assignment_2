@@ -39,32 +39,37 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
  * Input: the array of players to be initialized
  * Output: The number of players of the game
  */
-int initialize_players(player players[]){
-    
+int initialize_players(player players[]){ 
     int j;
-    char colors[6][8] = {"Red", "Blue", "Green", "Yellow", "Pink", "Orange"};
+    char *colors[6] = {"Red", "Blue", "Green", "Yellow", "Pink", "Orange"};
     int picked[6] = {0, 0, 0, 0, 0, 0};
     int i=0;
+    printf("Insert player %d's name:\n", i+1);
+    fgets(players[i].name,20,stdin);
+    i++;
+    for(j=0;j<6;j++){
+            if(picked[j] != 1)printf("%d. %s ", j+1, colors[j]);
+        }
+    printf("\n");
+        scanf("%d", &players[i].playercolor);
+        picked[players[i].playercolor-1]++;
+        printf("\n");
     while(i<6){
-    	printf("Insert player %d's name:\n", i+1);
+    	 printf("Insert player %d's name:\n", i+1);
+    fgets(players[i].name,20,stdin);
         fgets(players[i].name,20,stdin);
-       
+        if(players[i].name[0] == '\n')
+             break;
         for(j=0;j<6;j++){
             if(picked[j] != 1)printf("%d. %s ", j+1, colors[j]);
         }
-       printf("\n");
-       scanf("%d", &players[i].playercolor);
-       picked[players[i].playercolor-1] = 1;
-       printf("\n");
+        printf("\n");
+        scanf("%d", &players[i].playercolor);
+        picked[players[i].playercolor-1]++;
+        printf("\n");
 		//Checks whether a carriage return symbol was provided as input
-        if(players[i].name[0] == '\n')
-             break; 
-        i++;    
+        i++;
     }
     printf("\n");
 return i;
-    }
-    
-   
-     
-
+}
