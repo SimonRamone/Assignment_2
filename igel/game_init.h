@@ -40,7 +40,7 @@ typedef struct square{
      //the stack of tokens that can be placed on the board square
      token * stack;
 	 //the number of tokens of a square
-	 int numTokens;      
+	 //int numTokens;      
 }square;
 
 
@@ -53,7 +53,7 @@ typedef struct square{
 typedef struct player{
     char name[20];
     int playercolor;
-    int col;
+    //int col;
 }player; 
 
 
