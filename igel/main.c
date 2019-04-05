@@ -38,13 +38,19 @@ int main(int argc, char** argv) {
     //creates the players
     numPlayers = initialize_players(players);
     
+    int i = 0;
+    while(i<6){
+    	printf("%s %d\n",players[i].name, players[i].playercolor);
+    	i++;
+	}
     //asks each player to place their tokens
     //on the first column of the board
     place_tokens(board, players, numPlayers);
+    print_board(board);
     
     
     //manages the turns of the game and identifies a winner
-    play_game(board, players, numPlayers);
+   // play_game(board, players, numPlayers);
     
     return 0;
     

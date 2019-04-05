@@ -28,6 +28,8 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
                 board[i][j].type = NORMAL;
             }
             board[i][j].stack = NULL;
+            board[i][j].numTokens = 0;
+            
         }
     }
 }
@@ -46,27 +48,34 @@ int initialize_players(player players[]){
     int i=0;
     printf("Insert player %d's name:\n", i+1);
     fgets(players[i].name,20,stdin);
-    i++;
+    
+    enum color pick =0;
     for(j=0;j<6;j++){
             if(picked[j] != 1)printf("%d. %s ", j+1, colors[j]);
         }
     printf("\n");
-        scanf("%d", &players[i].playercolor);
-        picked[players[i].playercolor-1]++;
+        scanf("%d", &pick);
+      
+        players[i].playercolor = --pick;
+        getc(stdin);
+        printf("\n%d",players[i].playercolor);
+        picked[players[i].playercolor]++;
         printf("\n");
+        i++;
     while(i<6){
     	 printf("Insert player %d's name:\n", i+1);
-    fgets(players[i].name,20,stdin);
-        fgets(players[i].name,20,stdin);
+       	fgets(players[i].name,20,stdin);
         if(players[i].name[0] == '\n')
              break;
         for(j=0;j<6;j++){
             if(picked[j] != 1)printf("%d. %s ", j+1, colors[j]);
         }
         printf("\n");
-        scanf("%d", &players[i].playercolor);
-        picked[players[i].playercolor-1]++;
-        printf("\n");
+        scanf("%d", &pick);
+        players[i].playercolor = --pick;
+        getc(stdin);
+        picked[players[i].playercolor]++;
+       printf("\n");
 		//Checks whether a carriage return symbol was provided as input
         i++;
     }
