@@ -29,7 +29,11 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
+<<<<<<< HEAD
+UnitCount=11
+=======
 UnitCount=10
+>>>>>>> 14b6320859f7b242f434caf6d0d2aee60f358cbf
 
 [VersionInfo]
 Major=1
@@ -145,3 +149,16 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
+<<<<<<< HEAD
+[Unit11]
+FileName=game.c
+CompileCpp=0
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+=======
+>>>>>>> 14b6320859f7b242f434caf6d0d2aee60f358cbf
