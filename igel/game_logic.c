@@ -84,7 +84,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
     		
     		printf("Player %d please select a square\n", j+1);
     		scanf("%d", &selectedSquare);
-    		selectedSquare--;
+    		
     		
     		if(board[selectedSquare][0].numTokens == minNumOfTokens && board[selectedSquare][0].stack != players[j].playercolor){
     			board[selectedSquare][0].stack = (token *) malloc (sizeof(token));
