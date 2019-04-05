@@ -18,8 +18,10 @@
 
 
 //types of squares
-enum stype{
-    NORMAL, OBSTACLE };
+enum stype
+{
+    NORMAL, OBSTACLE
+ };
 
 //colors of tokens
 enum color {
@@ -55,6 +57,16 @@ typedef struct player{
     int playercolor;
     //int col;
 }player; 
+
+struct stack_elem*push(int value,struct_elem *top)
+{
+struct stack_elem *curr=top;
+top=malloc(sizeof(stack));
+top->data=value;
+top->next=curr;
+return top;
+}
+
 
 
 /*
