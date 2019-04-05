@@ -52,11 +52,14 @@ typedef struct square{
  * with the information about the player
  * such as a name and a color.
  */
+ 
+
 typedef struct player{
     char name[20];
     enum color playercolor;
 }player; 
 
+/*
 struct stack_elem*push(int value,struct_elem *top)
 {
 struct stack_elem *curr=top;
@@ -65,7 +68,7 @@ top->data=value;
 top->next=curr;
 return top;
 }
-
+*/
 
 
 /*
