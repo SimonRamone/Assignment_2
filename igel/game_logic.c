@@ -7,8 +7,10 @@
 
 #include "game_init.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void printLine();
+void move_vertical (square board[NUM_ROWS][NUM_COLUMNS]);
 
 /*
  * Returns the first letter associated with the color of the token
@@ -79,18 +81,30 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 	int minNumOfTokens = 0;
 	int selectedSquare = 0;
     int i, j;
+    int err = 0;
+    
     for(i=0;i<4;i++){
     	for(j=0;j<numPlayers; j++){
     		
+    		
     		printf("Player %d please select a square\n", j+1);
     		scanf("%d", &selectedSquare);
-    		
-    		
-    		if(board[selectedSquare][0].numTokens == minNumOfTokens && board[selectedSquare][0].stack != players[j].playercolor){
-    			board[selectedSquare][0].stack = (token *) malloc (sizeof(token));
-    			board[selectedSquare][0].stack->col = players[j].playercolor;
-    			board[selectedSquare][0].numTokens++;
+    		if (selectedSquare > 5 || selectedSquare < 0) err = 1;
+				else if ((board[selectedSquare][0].numTokens) == minNumOfTokens && (board[selectedSquare][0].stack->col) != (players[j].playercolor)) err = 0;
+					else err = 1;
+				
+			while(err != 0){
+				printf("Invalid input. Try again.\n");
+				scanf("%d", &selectedSquare);
+				if (selectedSquare > 5 || selectedSquare < 0) err = 1;
+					else if ((board[selectedSquare][0].numTokens) == minNumOfTokens && (board[selectedSquare][0].stack->col) != (players[j].playercolor)) err = 0;
+						else err = 1;
 			}
+				
+			board[selectedSquare][0].stack = (token *) malloc (sizeof(token));
+    		board[selectedSquare][0].stack->col = players[j].playercolor;
+    		board[selectedSquare][0].numTokens++;
+			
     		/*TO BE IMPLEMENTED: if the square contains the minimum number of tokens
     		and does not have a token of the same color of the player */
     		
@@ -117,13 +131,24 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
     srand(time(NULL));							// sets the seed for the random number function
 	int diceRoll;
+	int i;
+//  for(i=0;i<numPlayers; i++){
+	diceRoll = 0+(rand() % 5);
+	printf("Number rolled: %d\n", diceRoll);
+	move_vertical(board);
+//	print_board(board);
+//	}
+	
+	
+}
+
+void move_vertical (square board[NUM_ROWS][NUM_COLUMNS]){
 	int input = 0;
 	int col, row;
-	int upOrDown;
-	diceRoll = 1+(rand() % 6);
-	printf("Number rolled: %d", diceRoll);
+	char *upOrDown;
+	int err = 1;
 	printf("Do you want to move a token up or down? Enter 1 for yes.\n");
-	scanf("%d", input);
+	scanf("%d", &input);
 	if(input == 1){
 		printf("Which token would you like to move?\n");
 		printf("Enter column:");
@@ -132,13 +157,45 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		printf("Enter row:");
 		scanf("%d", &row);
 		printf("\n");
-		printf("Do you want to move it up or down? 1 or -1\n");
-		scanf("%d", &upOrDown);
+		printf("Do you want to move it up or down? u/d\n");
+		
+		scanf("%s", &upOrDown);
+		
+		if(upOrDown == 'u'){
+			board[row-1][col].numTokens++;
+			board[row-1][col].stack->col = board[row][col].stack->col;
+			err = 0;
+		}
+			else if (upOrDown == 'd'){
+				board[row+1][col].numTokens++;
+				board[row+1][col].stack->col = board[row][col].stack->col;
+				err = 0;
+			}
+				else {
+					err = 1;
+				}
+				
+		while(err != 0){
+			printf("Invalid input. Try again.\n");
+			scanf("%s", &upOrDown);
+			if(upOrDown == 'u'){
+			board[row-1][col].numTokens++;
+			board[row-1][col].stack->col = board[row][col].stack->col;
+			err = 0;
+		}
+			else if (upOrDown == 'd'){
+				board[row+1][col].numTokens++;
+				board[row+1][col].stack->col = board[row][col].stack->col;
+				err = 0;
+			}
+				else {
+					err = 1;
+				}
+		}
+		
 		board[row][col].numTokens--;
-			
+		board[row][col].stack = NULL;		
 	}
-	
-	
 }
 
 

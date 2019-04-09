@@ -31,7 +31,8 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
             }
             board[i][j].stack = NULL;
             board[i][j].numTokens = 0;
-            
+            board[i][j].stack = (token *) malloc (sizeof(token));
+            board[i][j].stack->col = -1;
         }
     }
 }
