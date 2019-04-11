@@ -25,14 +25,15 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
             if((i == 0 && j==3) || (i == 1 && j == 6) || (i ==2 && j ==4) 
                     || (i == 3 && j ==5) || (i==4 && j==2) || (i==5 && j==7)){
                 board[i][j].type = OBSTACLE;
+                board[i][j].stack = NULL;									//!!!
             } else{
                 //creates a normal square otherwise
                 board[i][j].type = NORMAL;
+                board[i][j].stack = (token *) malloc (sizeof(token));		//!!!
+                board[i][j].stack->col = -1;
             }
-            board[i][j].stack = NULL;
             board[i][j].numTokens = 0;
-            board[i][j].stack = (token *) malloc (sizeof(token));
-            board[i][j].stack->col = -1;
+            
         }
     }
 }
@@ -51,7 +52,7 @@ int initialize_players(player players[]){
     int i=0;
     printf("Insert player %d's name:\n", i+1);
     fgets(players[i].name,20,stdin);
-    
+    strtok(players[i].name, "\n");
     enum color pick =0;
     for(j=0;j<6;j++){
             if(picked[j] != 1)printf("%d. %s ", j+1, colors[j]);
@@ -61,13 +62,13 @@ int initialize_players(player players[]){
       
         players[i].playercolor = --pick;
         getc(stdin);
-        printf("\n%d",players[i].playercolor);
         picked[players[i].playercolor]++;
         printf("\n");
         i++;
     while(i<6){
     	 printf("Insert player %d's name:\n", i+1);
        	fgets(players[i].name,20,stdin);
+       	strtok(players[i].name, "\n");
         if(players[i].name[0] == '\n')
              break;
         for(j=0;j<6;j++){
