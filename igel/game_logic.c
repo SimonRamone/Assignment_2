@@ -78,7 +78,7 @@ void printLine(){
 void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
 	int minNumOfTokens = 0;
 	int selectedSquare = 0;
-    int i, j;
+    int i, j,k;
     for(i=0;i<4;i++){
     	for(j=0;j<numPlayers; j++){
     		
@@ -93,8 +93,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			}
     		/*TO BE IMPLEMENTED: if the square contains the minimum number of tokens
     		and does not have a token of the same color of the player */
-    		
-    		
+    		//Checks each square of first column to see if stack is necessary
     		
     		//updates the minimum number of Tokens
     		if(((numPlayers * i) + j + 1)%NUM_ROWS == 0)
