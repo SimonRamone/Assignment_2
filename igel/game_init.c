@@ -29,8 +29,8 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
             } else{
                 //creates a normal square otherwise
                 board[i][j].type = NORMAL;
-                board[i][j].stack = (token *) malloc (sizeof(token));		//!!!
-                board[i][j].stack->col = -1;
+               board[i][j].stack = NULL;		//!!!
+                //board[i][j].stack->token->col = -1;
             }
             board[i][j].numTokens = 0;
             
