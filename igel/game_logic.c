@@ -179,7 +179,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																			//selected row
 	int yesOrNo;																		//user input
-	int upOrDown;																		//user input
+	char * upOrDown;																		//user input
 	int err = 1;																		//invalid input tracker
 	printf("Do you want to move a token up or down? Y/N\n");							//asks user for input
 	while(err != 0){																	//loops until input is valid
