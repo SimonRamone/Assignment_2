@@ -150,7 +150,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	
 }
 
-void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
+void move_vertical (square board[NUM_columnS][NUM_COLUMNS], player players[], int playerNum){
 	int row;
 	int yesOrNo;
 	char *upOrDown;
@@ -227,6 +227,18 @@ void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 }
 
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll){
+	int column;
+	char *upOrDown;
+	int err = 1;
+	printf("Do you want to move a token up or down? Y/N\n");
+	while(err != 0){
+		scanf("%s", &yesOrNo);
+		if(yesOrNo == 'y' || yesOrNo == 'Y'){
+			printf("Which token would you like to move?\n");
+			printf("Enter row:");
+			scanf("%d", &row);
+			while(err != 0){
+	
 	
 }
 

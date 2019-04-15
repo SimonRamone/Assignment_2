@@ -21,12 +21,12 @@ CursorRow=70
 TopLine=62
 LeftChar=1
 [Editors]
-Order=7,2,4
+Order=7,4
 Focused=4
 [Editor_4]
-CursorCol=72
-CursorRow=96
-TopLine=81
+CursorCol=2
+CursorRow=231
+TopLine=216
 =======
 CursorCol=1
 CursorRow=79
@@ -51,7 +51,7 @@ LeftChar=1
 <<<<<<< HEAD
 CursorCol=14
 CursorRow=49
-TopLine=15
+TopLine=1
 =======
 CursorCol=24
 CursorRow=54
