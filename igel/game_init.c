@@ -52,7 +52,7 @@ int initialize_players(player players[]){
     int i=0;
     enum color pick = 0;
     while(i<6){
-    	 printf("Insert player %d's name:\n", i+1);
+    	printf("Insert player %d's name:\n", i+1);
        	fgets(players[i].name,20,stdin);
        	strtok(players[i].name, "\n");
         if(players[i].name[0] == '\n')

@@ -160,31 +160,14 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	dieRoll = 0+(rand() % NUM_ROWS);
 	printf("Number rolled: %d\n", dieRoll);
 	move_vertical(board, players, i);
-	move_horizontal(board, dieRoll);
+//	move_horizontal(board, dieRoll);
 	print_board(board);
 	}
 	
 	
 }
 
-void move_vertical (square board[NUM_columnS][NUM_COLUMNS], player players[], int playerNum){
-	int row;
-	int yesOrNo;
-	char *upOrDown;
-	int err = 1;
-	printf("Do you want to move a token up or down? Y/N\n");
-	while(err != 0){
-		scanf("%s", &yesOrNo);
-		if(yesOrNo == 'y' || yesOrNo == 'Y'){
-			printf("Which token would you like to move?\n");
-			printf("Enter row:");
-			scanf("%d", &row);
-			while(err != 0){
-				if(board[row][0].stack->col != players[playerNum].playercolor){
-				printf("That's not your token! Try again.\n");
-				scanf("%d", &row);
-				err == 1;
-=======
+
 void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																			//selected row
 	int yesOrNo;																		//user input
@@ -197,7 +180,6 @@ void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			printf("Which token would you like to move?\n");							//asks user for input
 
 			while(err != 0){															//loops until input for row is valid
-<<<<<<< HEAD
 				printf("Enter row:");														
 				scanf("%d", &row);															//reads input for row
 				printf("Enter column:");														
@@ -207,15 +189,12 @@ void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 				}	
 					else if(row < NUM_ROWS && row > -1 && clm < NUM_COLUMNS && clm > -1 && board[row][clm].stack->token->col != players[playerNum].playercolor){	//prints error if selected token is not theirs
 						printf("That's not your token! Try again.\n");																
-=======
+					}
 				if(row < 6 && row > -1 && board[row][0].stack->token->col != players[playerNum].playercolor){	//prints error if selected token is not theirs
-				printf("That's not your token! Try again.\n");							
-				scanf("%d", &row);														//reads input for row
-				err == 1;															
+				printf("That's not your token! Try again.\n");																						
 				}
-					else if(row < 6 && row > -1 && board[row][0].stack->token->col == players[playerNum].playercolor){	//if the token is theirs
+					else if(row < NUM_ROWS && row > -1 && board[row][0].stack->token->col == players[playerNum].playercolor){	//if the token is theirs
 						err = 0;															//while loop ends
->>>>>>> 9c4a0d0547acbaf9a0929afceeca220de8d601c8
 					}
 						else if(row < NUM_ROWS && row > -1 && clm < NUM_COLUMNS && clm > -1 && board[row][clm].stack->token->col == players[playerNum].playercolor && board[row][clm].stack != NULL){	//if the token is theirs
 							err = 0;															//while loop ends
