@@ -11,7 +11,7 @@
 #include <string.h>
 
 void printLine();
-void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
+void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
 
 struct stack_token * push(token *newtoken, struct stack_token *top){
@@ -110,9 +110,10 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
     		printf("%s please select a square.\n", players[j].name);
 			err = 1;	
 			while(err != 0){
+				printf("Enter row: ");
 				scanf("%d", &selectedSquare);
 				if (selectedSquare >= NUM_ROWS || selectedSquare < 0){
-					printf("Invalid input. Try again.\n");
+					printf("Square does not exist. Try again.\n");
 				} 
 					else if ((board[selectedSquare][0].numTokens) == minNumOfTokens){
 						if(board[selectedSquare][0].stack == NULL)	err = 0;
@@ -152,26 +153,26 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-    srand(time(NULL));							// sets the seed for the random number function
-	int dieRoll;
-	int i;
+    srand(time(NULL));									// sets the seed for the random number function
+	int dieRoll;										// number rolled
+	int i;												//for loop increment variable
   for(i=0;i<numPlayers; i++){
   	printf("It's %s's turn!\n", players[i].name);
-	dieRoll = 0+(rand() % NUM_ROWS);
+	dieRoll = 0+(rand() % NUM_ROWS);					// die is rolled
 	printf("Number rolled: %d\n", dieRoll);
-	move_vertical(board, players, i);
+	move_sideways(board, players, i);					//	function for selecting and moving a token up or down one space
 //	move_horizontal(board, dieRoll);
-	print_board(board);
+	print_board(board);									// prints board at end of players turn
 	}
 	
 	
 }
 
 
-void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
-	int row, clm;																			//selected row
-	int yesOrNo;																		//user input
-	char * upOrDown;																		//user input
+void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
+	int row, clm;																		//selected row
+	int yesOrNo;																		//user input for yes or no
+	char * upOrDown;																	//user input for up or down
 	int err = 1;																		//invalid input tracker
 	printf("Do you want to move a token up or down? Y/N\n");							//asks user for input
 	while(err != 0){																	//loops until input is valid
@@ -181,56 +182,57 @@ void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 
 			while(err != 0){															//loops until input for row is valid
 				printf("Enter row:");														
-				scanf("%d", &row);															//reads input for row
+				scanf("%d", &row);														//reads input for row
 				printf("Enter column:");														
 				scanf("%d", &clm);
-				if(board[row][clm].stack == NULL && row < NUM_ROWS && row > -1 && clm < NUM_COLUMNS && clm > -1){
-					printf("Empty square selected! Try again.\n");
-				}	
-					else if(row < NUM_ROWS && row > -1 && clm < NUM_COLUMNS && clm > -1 && board[row][clm].stack->token->col != players[playerNum].playercolor){	//prints error if selected token is not theirs
-						printf("That's not your token! Try again.\n");																
-					}
-				if(row < 6 && row > -1 && board[row][0].stack->token->col != players[playerNum].playercolor){	//prints error if selected token is not theirs
-				printf("That's not your token! Try again.\n");																						
+				if(row >= NUM_ROWS || row < 0 || clm >= NUM_COLUMNS || clm < 0){		//if selected row or column is greater or smaller than the number of rows or columns
+					printf("Square does not exist. Try again.\n");						//prints error message
 				}
-					else if(row < NUM_ROWS && row > -1 && board[row][0].stack->token->col == players[playerNum].playercolor){	//if the token is theirs
-						err = 0;															//while loop ends
+					else if(board[row][clm].stack == NULL){								//checks if there is a token on the selected square
+						printf("Empty square selected! Try again.\n");
+					}	
+						else if(board[row][clm].stack->token->col != players[playerNum].playercolor){		//prints error if selected token is not theirs
+							printf("That's not your token! Try again.\n");																
+						}
+							else if(board[row][clm].stack->token->col == players[playerNum].playercolor){	//if the token is their own while loop ends
+								err = 0;															
+							}
+								else {
+									printf("Invalid input. Try again.\n");
+								}
+			}
+			
+			printf("Do you want to move it up or down? U/D\n");
+			err = 1;					//initializes invalid input tracker
+			while(err != 0){	
+				scanf("%s", &upOrDown);	//reads input for upOrDown
+				
+				if((row == 0 && (upOrDown == 'u' || upOrDown == 'U')) || row == 5 && (upOrDown == 'd' || upOrDown == 'D')){	//if token is at the top or bottom row it cannot be moved up or down respectively
+					printf("Token cannot be moved in that direction. Try again.\n");
+				}
+					else if(upOrDown == 'u' || upOrDown == 'U'){								//checks if user input u or U
+						token * temp = board[row][clm].stack->token;							//temp is assigned the top token of the selected square
+						stack_token * next = board[row][clm].stack->next;						//next is assigned the token uderneath the selected one
+						free(board[row][clm].stack);											//memory is freed for old top of stack
+						board[row][clm].stack = next;											//selected square gets assigned new top
+						board[row-1][clm].stack = push(temp, board[row-1][clm].stack);			//square above selected gets new top token
+						board[row-1][clm].numTokens++;											//number of tokens on new square is incremented
+						err = 0;																// no invalid input
 					}
-						else if(row < NUM_ROWS && row > -1 && clm < NUM_COLUMNS && clm > -1 && board[row][clm].stack->token->col == players[playerNum].playercolor && board[row][clm].stack != NULL){	//if the token is theirs
-							err = 0;															//while loop ends
+						else if (upOrDown == 'd' || upOrDown == 'D'){							//checks if user input d or D
+							token * temp = board[row][clm].stack->token;						//temp is assigned the top token of the selected square
+							stack_token * next = board[row][clm].stack->next;					//next is assigned the token uderneath the selected one
+							free(board[row][clm].stack);										//memory is freed for old top of stack
+							board[row][clm].stack = next;										//selected square gets assigned new top
+							board[row+1][clm].stack = push(temp, board[row+1][clm].stack);		//square below selected square get new top token
+							board[row+1][clm].numTokens++;										//number of tokens on new square is incremented
+							err = 0;															//no invalid input
 						}
 							else {
 								printf("Invalid input. Try again.\n");
 							}
-			}
-			
-			printf("Do you want to move it up or down? U/D\n");
-			err = 1;
-			while(err != 0){
-				
-			scanf("%s", &upOrDown);
-			
-			token * temp = board[row][clm].stack->token;									//temp is assigned the top token of the selected square
-			stack_token * next = board[row][clm].stack->next;								//next is assigned the token uderneath the selected one
-			free(board[row][clm].stack);													//memory is freed for old top of stack
-			board[row][clm].stack = next;													//selected square gets assigned new top
-			
-			if(upOrDown == 'u' || upOrDown == 'U'){										//checks if user input u or U
-				board[row-1][clm].stack = push(temp, board[row-1][clm].stack);				//square above selected gets new top token
-				board[row-1][clm].numTokens++;											//number of tokens on new square is incremented
-				err = 0;																// no invalid input
-			}
-				else if (upOrDown == 'd' || upOrDown == 'D'){							//checks if user input d or D
-					board[row+1][clm].stack = push(temp, board[row+1][clm].stack);			//square below selected square get new top token
-					board[row+1][clm].numTokens++;										//number of tokens on new square is incremented
-					err = 0;															//no invalid input
-				}
-					else {
-						printf("Invalid input. Try again.\n");
-					}
-			}
-			
-			board[row][clm].numTokens--;	
+			}			
+			board[row][clm].numTokens--;														//decreases number of tokens on selected square after a token has been moved
 		}
 		else if(yesOrNo == 'n' || yesOrNo == 'N') return;		//if user inputs n or N functions is quit
 			else{
