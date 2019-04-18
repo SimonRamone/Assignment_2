@@ -14,18 +14,17 @@ void printLine();
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
 
+//function for adding a token on top of a stack
 struct stack_token * push(token *newtoken, struct stack_token *top){
     struct stack_token *curr = top;
     top = malloc(sizeof(stack_token));
-    top->token = newtoken;
+    top->token = newtoken;				//the top token is assigned value of new token
     top->next = curr;
-    return top;
+    return top;							//returns new top of stack which points to the newly added token
 }
 
-
-
-	struct stack_elem *top = NULL;
-    struct stack_elem *curr = NULL;
+struct stack_elem *top = NULL;
+struct stack_elem *curr = NULL;
 
 /*
  * Returns the first letter associated with the color of the token
@@ -51,7 +50,7 @@ char print_token(token *t){
 void print_board(square board[NUM_ROWS][NUM_COLUMNS]){
     printf("                THE BOARD\n");
     int i, j;
-    for(i =0; i < NUM_ROWS; i++){
+    for(i = 0; i < NUM_ROWS; i++){
        
         //prints an horizontal line
         printLine();
@@ -98,37 +97,37 @@ void printLine(){
  *        numPlayers - the number of players  
  */
 void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-	int minNumOfTokens = 0;
-	int selectedSquare = 0;
+	int minNumOfTokens = 0;																		//the minimum number of tokens, if selected square has more tokens than this, selection is invalid
+	int selectedSquare = 0;																		//user selected square
 
-    int i, j;
-    int err;
-    
-    for(i=0;i<4;i++){
-    	for(j=0;j<numPlayers; j++){	
+    int i, j;				//for loop increment variable
+    int err;				//invalid input tracker
+    	
+    for(i=0;i<4;i++){						//loops through tokens
+    	for(j=0;j<numPlayers; j++){			//loops through players
     		
     		printf("%s please select a square.\n", players[j].name);
 			err = 1;	
 			while(err != 0){
 				printf("Enter row: ");
 				scanf("%d", &selectedSquare);
-				if (selectedSquare >= NUM_ROWS || selectedSquare < 0){
+				if (selectedSquare >= NUM_ROWS || selectedSquare < 0){							//if selected square is out of bounds an error message is printed
 					printf("Square does not exist. Try again.\n");
 				} 
-					else if ((board[selectedSquare][0].numTokens) == minNumOfTokens){
-						if(board[selectedSquare][0].stack == NULL)	err = 0;
-							else if(board[selectedSquare][0].stack->token->col != (players[j].playercolor)) err = 0;
+					else if ((board[selectedSquare][0].numTokens) == minNumOfTokens){			//checks if the selected square has the smallest amount of tokens
+						if(board[selectedSquare][0].stack == NULL)	err = 0;					//if the selected square is empty then the selection is valid	
+							else if(board[selectedSquare][0].stack->token->col != (players[j].playercolor)) err = 0;	//if the selected square's top token is not the same color as the player's colour then the selection is valid
 								else printf("Invalid input. Try again.\n"); 
 					}	
 						else printf("Invalid input. Try again.\n");
 
 			}
 			
-			token * newtoken = (token *) malloc (sizeof(token));
-			newtoken->col = players[j].playercolor;
-			board[selectedSquare][0].stack = push(newtoken, board[selectedSquare][0].stack);
+			token * newtoken = (token *) malloc (sizeof(token));								//new token is created
+			newtoken->col = players[j].playercolor;												//the new token's colour is assigned the player's colour
+			board[selectedSquare][0].stack = push(newtoken, board[selectedSquare][0].stack);	//token is added to the top of the stack on the selected square
 			
-    		board[selectedSquare][0].numTokens++;
+    		board[selectedSquare][0].numTokens++;												//number of tokens on selected square is incremented
 			
     		/*TO BE IMPLEMENTED: if the square contains the minimum number of tokens
     		and does not have a token of the same color of the player */
@@ -153,16 +152,23 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-    srand(time(NULL));									// sets the seed for the random number function
-	int dieRoll;										// number rolled
-	int i;												//for loop increment variable
-  for(i=0;i<numPlayers; i++){
-  	printf("It's %s's turn!\n", players[i].name);
-	dieRoll = 0+(rand() % NUM_ROWS);					// die is rolled
+    srand(time(NULL));										// sets the seed for the random number function
+	int dieRoll;											// number rolled
+	int i, j;												//for loop increment variable
+	int err;
+	for(i=0;i<numPlayers; i++){
+	printf("It's %s's turn!\n", players[i].name);
+	err = 1;
+	while(err != 0){										//rolls die until the row corresponding to the rolled number has atleast one token
+		dieRoll = (rand() % (NUM_ROWS));					// die is rolled
+		for(j = 0; j < NUM_COLUMNS; j++){
+			if(board[dieRoll][j].stack != NULL) err=0;		//if atleast one square on the row that was rolled has a token, while loop ends
+		}
+	}	
 	printf("Number rolled: %d\n", dieRoll);
-	move_sideways(board, players, i);					//	function for selecting and moving a token up or down one space
+	move_sideways(board, players, i);						//	function for selecting and moving a token up or down one space
 //	move_horizontal(board, dieRoll);
-	print_board(board);									// prints board at end of players turn
+	print_board(board);										// prints board at end of players turn
 	}
 	
 	

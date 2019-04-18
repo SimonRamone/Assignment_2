@@ -24,15 +24,13 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
             //creates an obstacle square at positions (0,3), (1,6), (2,4), (3,5), (4,2) and (5,7)
             if((i == 0 && j==3) || (i == 1 && j == 6) || (i ==2 && j ==4) 
                     || (i == 3 && j ==5) || (i==4 && j==2) || (i==5 && j==7)){
-                board[i][j].type = OBSTACLE;
-                board[i][j].stack = NULL;									
+                board[i][j].type = OBSTACLE;									
             } else{
                 //creates a normal square otherwise
                 board[i][j].type = NORMAL;
-				board[i][j].stack = NULL;	
-                //board[i][j].stack->token->col = -1;
             }
-            board[i][j].numTokens = 0;
+            board[i][j].stack = NULL;				//sets stack of each square to empty
+            board[i][j].numTokens = 0;				//initialises numTokens for each square
             
         }
     }

@@ -51,17 +51,6 @@ typedef struct player{
     enum color playercolor;					//player's selected colour
 }player; 
 
-/*
-struct stack_elem*push(int value,struct_elem *top)
-{
-struct stack_elem *curr=top;
-top=malloc(sizeof(stack));
-top->data=value;
-top->next=curr;
-return top;
-}
-*/
-
 
 /*
  * This function creates the board for the first time
