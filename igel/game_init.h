@@ -9,7 +9,7 @@
 enum stype
 {
     NORMAL, OBSTACLE
- };
+};
 
 //colors of tokens
 enum color {
@@ -23,8 +23,8 @@ typedef struct token{
 }token;
 
 typedef struct stack_token{
-   token *token;
-   struct stack_token *next; 
+   token *token;							//stack element
+   struct stack_token *next; 				//points to previous stack element (token)
 }stack_token;
 
 //Defines a square of the board.
@@ -34,8 +34,7 @@ typedef struct square{
     //the stack of tokens that can be placed on the board square
     stack_token *stack;
 	//the number of tokens of a square
-	int numTokens;
-	
+	int numTokens;	
 }square;
 
 
@@ -48,21 +47,15 @@ typedef struct square{
  
 
 typedef struct player{
+<<<<<<< HEAD
     char name[20];
     enum color playercolor;
     int playerwinning;
+=======
+    char name[20];							//player's name
+    enum color playercolor;					//player's selected colour
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 }player; 
-
-/*
-struct stack_elem*push(int value,struct_elem *top)
-{
-struct stack_elem *curr=top;
-top=malloc(sizeof(stack));
-top->data=value;
-top->next=curr;
-return top;
-}
-*/
 
 
 /*
