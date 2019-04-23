@@ -44,12 +44,35 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
  * Output: The number of players of the game
  */
 int initialize_players(player players[]){ 
+<<<<<<< HEAD
+    int j;
+    int playerwinning=0;
+    char *colors[6] = {"Red", "Blue", "Green", "Yellow", "Pink", "Orange"};
+    int picked[6] = {0, 0, 0, 0, 0, 0};
+    int i=0;
+    printf("Insert player %d's name:\n", i+1);
+    fgets(players[i].name,20,stdin);
+    strtok(players[i].name, "\n");
+    enum color pick =0;
+    for(j=0;j<6;j++){
+            if(picked[j] != 1)printf("%d. %s ", j+1, colors[j]);
+        }
+    printf("\n");
+        scanf("%d", &pick);
+      
+        players[i].playercolor = --pick;
+        getc(stdin);
+        picked[players[i].playercolor]++;
+        printf("\n");
+        i++;
+=======
     char *colors[6] = {"Red", "Blue", "Green", "Yellow", "Pink", "Orange"};		//for printing colour names
     int picked[6] = {0, 0, 0, 0, 0, 0};											//keeps track whether a colour has already been picked
     int i=0;																	//while loop increment variable (number of players)
     int j;																		//for loop increment variable
     int err;																	//keeps track of incomplete or invalid input
     int pick;																	//user selected colour
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
     while(i<6){
     	printf("Insert player %d's name:\n", i+1);
        	fgets(players[i].name,20,stdin);										//reads player name

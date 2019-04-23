@@ -11,10 +11,18 @@
 #include <string.h>
 
 void printLine();
+<<<<<<< HEAD
+void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
+void move_adj(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll);
+void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS], int row_increment, int col_increment, int roll);
+void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) ;
+void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+=======
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
 
 //function for adding a token on top of a stack
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 struct stack_token * push(token *newtoken, struct stack_token *top){
     struct stack_token *curr = top;
     top = malloc(sizeof(stack_token));
@@ -42,6 +50,41 @@ char print_token(token *t){
     return '\0';
 }
 
+void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS],int row_increment,int col_increment, int roll) {
+	int column=0;
+	int row= roll;
+	token * temp = board[row+row_increment][column].stack->token;									//temp is assigned the top token of the selected square
+	stack_token * next = board[row+row_increment][column].stack->next;								//next is assigned the token uderneath the selected one
+	free(board[row+row_increment][column].stack);													//memory is freed for old top of stack
+	board[row+row_increment][column].stack = next;	
+
+	//places token on chosen cell
+	board[row][column].stack = push(temp, board[row][column].stack);				//square above selected gets new top token
+	board[row][column].numTokens++;	
+
+	//sorts out moving horizontally
+	temp = board[row][column].stack->token;									//temp is assigned the top token of the selected square
+	next = board[row][column].stack->next;								//next is assigned the token uderneath the selected one
+	free(board[row][column].stack);													//memory is freed for old top of stack
+	board[row][column].stack = next;
+
+	//places counter on chosen cell	
+	board[row][column+col_increment].stack = push(temp, board[row][column+col_increment].stack);				//square above selected gets new top token
+	board[row][column+col_increment].numTokens++;
+}
+void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) 
+{
+	int column=0;
+	int row=roll;
+	token * temp = board[row][column].stack->token;									//temp is assigned the top token of the selected square
+	stack_token * next = board[row][column].stack->next;								//next is assigned the token uderneath the selected one
+	free(board[row][column].stack);													//memory is freed for old top of stack
+	board[row][column].stack = next;	
+			
+		//places token on chosen cell
+	board[row][column+1].stack = push(temp, board[row][column+1].stack);				//square above selected gets new top token
+	board[row][column+1].numTokens++;
+}
 /*
  * Prints the board
  * 
@@ -152,6 +195,22 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
+<<<<<<< HEAD
+    srand(time(NULL));							// sets the seed for the random number function
+	int dieRoll;
+	int i;
+	int x;
+  for(i=0;i<numPlayers; i++){
+  	printf("It's %s's turn!\n", players[i].name);
+	dieRoll = (rand() % NUM_ROWS);
+	printf("Number rolled: %d\n", dieRoll);
+	printf("Would you like to move an adjacent token (1) or any token (2) sideways?\n");
+	scanf("%d", &x);
+	if(x == 1) move_adj(board, players, i, dieRoll);
+		else if (x == 2) move_vertical(board, players, i);
+	move_right(board, dieRoll);
+	print_board(board);
+=======
     srand(time(NULL));										// sets the seed for the random number function
 	int dieRoll;											// number rolled
 	int i, j;												//for loop increment variable
@@ -169,16 +228,24 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	move_sideways(board, players, i);						//	function for selecting and moving a token up or down one space
 //	move_horizontal(board, dieRoll);
 	print_board(board);										// prints board at end of players turn
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 	}
 	
 	
 }
 
+<<<<<<< HEAD
+void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
+	int row, clm;																		//selected row
+	char yesOrNo;																		//user input
+	char * upOrDown;																	//user input
+=======
 
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																		//selected row
 	int yesOrNo;																		//user input for yes or no
 	char * upOrDown;																	//user input for up or down
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 	int err = 1;																		//invalid input tracker
 	printf("Do you want to move a token up or down? Y/N\n");							//asks user for input
 	while(err != 0){																	//loops until input is valid
@@ -189,10 +256,14 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			while(err != 0){															//loops until input for row is valid
 				printf("Enter row:");														
 				scanf("%d", &row);														//reads input for row
+<<<<<<< HEAD
+				err == 1;																
+=======
 				printf("Enter column:");														
 				scanf("%d", &clm);
 				if(row >= NUM_ROWS || row < 0 || clm >= NUM_COLUMNS || clm < 0){		//if selected row or column is greater or smaller than the number of rows or columns
 					printf("Square does not exist. Try again.\n");						//prints error message
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 				}
 					else if(board[row][clm].stack == NULL){								//checks if there is a token on the selected square
 						printf("Empty square selected! Try again.\n");
@@ -209,12 +280,55 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			}
 			
 			printf("Do you want to move it up or down? U/D\n");
+<<<<<<< HEAD
+			scanf("%c", &upOrDown);
+			
+			token * temp = board[row][0].stack->token;									//temp is assigned the top token of the selected square
+			stack_token * next = board[row][0].stack->next;								//next is assigned the token uderneath the selected one
+			free(board[row][0].stack);													//memory is freed for old top of stack
+			board[row][0].stack = next;													//selected square gets assigned new top
+			
+			if(upOrDown == 'u' || upOrDown == 'U'){										//checks if user input u or U
+				board[row-1][0].stack = push(temp, board[row-1][0].stack);				//square above selected gets new top token
+				board[row-1][0].numTokens++;											//number of tokens on new square is incremented
+				err = 0;																// no invalid input
+			}
+				else if (upOrDown == 'd' || upOrDown == 'D'){							//checks if user input d or D
+					board[row+1][0].stack = push(temp, board[row+1][0].stack);			//square below selected square get new top token
+					board[row+1][0].numTokens++;										//number of tokens on new square is incremented
+					err = 0;															//no invalid input
+				}		
+					else {
+						err = 1;
+					}
+					
+			while(err != 0){
+				printf("Invalid input. Try again.\n");
+				scanf("%s", &upOrDown);
+			
+			printf("%d", board[row][0].stack->next->token->col);
+			token * temp = board[row][0].stack->token;
+			stack_token * next = board[row][0].stack->next;
+			free(board[row][0].stack);
+			board[row][0].stack = board[row][0].stack->next;
+			
+			if(upOrDown == 'u' || upOrDown == 'U'){
+				board[row-1][0].stack = push(temp, board[row-1][0].stack);
+				board[row-1][0].numTokens++;
+				err = 0;
+			}
+				else if (upOrDown == 'd' || upOrDown == 'D'){
+					board[row+1][0].numTokens++;
+					board[row+1][0].stack = push(temp, board[row+1][0].stack);
+					err = 0;
+=======
 			err = 1;					//initializes invalid input tracker
 			while(err != 0){	
 				scanf("%s", &upOrDown);	//reads input for upOrDown
 				
 				if((row == 0 && (upOrDown == 'u' || upOrDown == 'U')) || row == 5 && (upOrDown == 'd' || upOrDown == 'D')){	//if token is at the top or bottom row it cannot be moved up or down respectively
 					printf("Token cannot be moved in that direction. Try again.\n");
+>>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 				}
 					else if(upOrDown == 'u' || upOrDown == 'U'){								//checks if user input u or U
 						token * temp = board[row][clm].stack->token;							//temp is assigned the top token of the selected square
@@ -247,23 +361,158 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 	}
 }
 
-/*void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll){
-	int roll=0+rand()%6;
-	int row = int column;
+void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll)
+{
+	char yesOrNo;
+	char above_below;
+	int column;
+	int row=roll;
+	printf("Enter the column in which you would like to have a counter moved");
+	scanf("%d",&column);
 	
-	char *upOrDown;
-	int err = 1;
-	printf("Do you want to mo a token up or down? Y/N\n");
-	while(err != 0){
-		scanf("%s", &yesOrNo);
-		if(yesOrNo == 'y' || yesOrNo == 'Y'){
-			printf("Which token would you like to move?\n");
-			printf("Enter row:");
-			scanf("%d", &row);
-			while(err != 0){
+	if (column>8)
+	{
+		printf("Error invalid input");
+    }
 	
-	
-}*/
+	while(column<8)
+	{
+		if(board[1][column].stack || board[2][column].stack|| board[3][column].stack || board[4][column].stack)
+		{
+        	
+			printf("Do you want to move your adjacent counter, enter 'y' for yes and 'n' for no");
+			scanf("%c", &yesOrNo);		//reads input for yesOrNo
+			
+			if(yesOrNo == 'y' || yesOrNo == 'Y')
+			{
+				if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
+				{
+					//Goes through board to make sure no above adjacent option is given for squares in the first row 
+				
+					move_adjacent(board,-1,1, roll);	
+				}
+				
+				else if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
+				{
+					move_adjacent(board, 1, 1, roll);
+				}
+				
+				else if(board[row-1][column].stack->token->col == players[playerNum].playercolor && board[row+1][column].stack->token->col == players[playerNum].playercolor)
+				{
+					printf("To move the counter above enter 'a' to move the counter below enter 'b'");
+					scanf("%c",above_below);
+					if(above_below == 'a' || yesOrNo == 'A')
+					{
+						move_adjacent(board,-1,1, roll);
+					}
+					
+					else if(above_below == 'b' || above_below == 'B')
+					{
+						move_adjacent(board,1,1,roll);
+					}
+				
+				}
+			
+			}
+		/*	
+		   else if(yesOrNo == 'n' || yesOrNo == 'N')
+		   {
+		   		printf("The counter on top of the chosen column will be moved");
+		   	
+				move_right (square board[NUM_ROWS][NUM_COLUMNS]);		
+		   }
+		*/
+		}
+
+		
+		else if(row == 0)
+		{
+			if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				printf("Do you want to move your adjacent counter, enter 'y' for yes and 'n' for no");
+				scanf("%c", &yesOrNo);		//reads input for yesOrNo
+				
+				if(yesOrNo == 'y' || yesOrNo == 'Y')
+				{
+					move_adjacent(board, 1, 1, roll);
+					
+				}
+				
+			}
+		}
+		
+		else if(row == 5)
+		
+			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				printf("Do you want to move your adjacent counter, enter 'y' for yes and 'n' for no");
+				scanf("%c", &yesOrNo);		//reads input for yesOrNo
+				
+				if(yesOrNo == 'y' || yesOrNo == 'Y')
+				{
+					move_adjacent(board, -1, 1, roll);
+					
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+	}
+
+
+//void option2(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+//{
+//	int col;
+//	printf("Enter the column you wish to have a counter move in");
+//	scanf("%d",&column);
+//	
+//	if(column>8)
+//	{
+//		printf("Invalid input");
+//	}
+//	
+//	while(column>8)
+//	{
+//		move_right(square board[NUM_ROWS][NUM_COLUMNS],1);
+//		f
+//	}
+//}
+//
+//void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
+//{
+// 
+//	for(int i = 0; i< NUM_ROWS ; i++)
+//	{
+//		for(int j=0;curr_column-1;j++)
+//		{
+//		
+//			if(board[i][curr_column].stack != NULL)
+//			{
+//				printf("You are caught in an obstacle! You cannot move until all tokens to your left are gone:(");
+//				return;
+//			}
+//		}
+//	}
+//}
+
+//void winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+//{
+//	for(int i = 0; i< NUM_ROWS ; i++)
+//	{
+//		if(board[i][8].stack == players[playerNum].playercolor)
+//		{
+//			players[playerNum].playerwinning++;
+//			
+//		}
+//	}
+//
+//	
+//}
+
+
+
 
 
 
