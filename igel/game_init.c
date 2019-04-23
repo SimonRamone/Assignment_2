@@ -47,6 +47,7 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
  */
 int initialize_players(player players[]){ 
     int j;
+    int playerwinning=0;
     char *colors[6] = {"Red", "Blue", "Green", "Yellow", "Pink", "Orange"};
     int picked[6] = {0, 0, 0, 0, 0, 0};
     int i=0;

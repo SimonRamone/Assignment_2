@@ -33,12 +33,12 @@ TopLine=62
 LeftChar=1
 [Editors]
 <<<<<<< HEAD
-Order=7,4
+Order=4
 Focused=4
 [Editor_4]
-CursorCol=52
-CursorRow=188
-TopLine=168
+CursorCol=12
+CursorRow=436
+TopLine=404
 =======
 Order=0,1,2,3,4,5,6,7,8,9
 Focused=4
@@ -77,9 +77,9 @@ LeftChar=1
 <<<<<<< HEAD
 [Editor_7]
 <<<<<<< HEAD
-CursorCol=5
-CursorRow=46
-TopLine=25
+CursorCol=1
+CursorRow=31
+TopLine=9
 =======
 <<<<<<< HEAD
 CursorCol=14
