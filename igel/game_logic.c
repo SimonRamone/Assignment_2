@@ -11,18 +11,16 @@
 #include <string.h>
 
 void printLine();
-<<<<<<< HEAD
+     
 void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_adj(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll);
 void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS], int row_increment, int col_increment, int roll);
 void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) ;
 void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
-=======
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
 
 //function for adding a token on top of a stack
->>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 struct stack_token * push(token *newtoken, struct stack_token *top){
     struct stack_token *curr = top;
     top = malloc(sizeof(stack_token));
@@ -195,7 +193,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-<<<<<<< HEAD
+
     srand(time(NULL));							// sets the seed for the random number function
 	int dieRoll;
 	int i;
@@ -234,7 +232,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	
 }
 
-<<<<<<< HEAD
+
 void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																		//selected row
 	char yesOrNo;																		//user input
@@ -256,7 +254,7 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			while(err != 0){															//loops until input for row is valid
 				printf("Enter row:");														
 				scanf("%d", &row);														//reads input for row
-<<<<<<< HEAD
+
 				err == 1;																
 =======
 				printf("Enter column:");														
@@ -280,7 +278,7 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			}
 			
 			printf("Do you want to move it up or down? U/D\n");
-<<<<<<< HEAD
+  
 			scanf("%c", &upOrDown);
 			
 			token * temp = board[row][0].stack->token;									//temp is assigned the top token of the selected square
