@@ -226,7 +226,6 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	move_sideways(board, players, i);						//	function for selecting and moving a token up or down one space
 //	move_horizontal(board, dieRoll);
 	print_board(board);										// prints board at end of players turn
->>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
 	}
 	
 	
@@ -236,14 +235,13 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																		//selected row
 	char yesOrNo;																		//user input
-	char * upOrDown;																	//user input
-=======
+	char * upOrDown;																	//user
 
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																		//selected row
 	int yesOrNo;																		//user input for yes or no
 	char * upOrDown;																	//user input for up or down
->>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
+
 	int err = 1;																		//invalid input tracker
 	printf("Do you want to move a token up or down? Y/N\n");							//asks user for input
 	while(err != 0){																	//loops until input is valid
@@ -256,12 +254,12 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 				scanf("%d", &row);														//reads input for row
 
 				err == 1;																
-=======
+
 				printf("Enter column:");														
 				scanf("%d", &clm);
 				if(row >= NUM_ROWS || row < 0 || clm >= NUM_COLUMNS || clm < 0){		//if selected row or column is greater or smaller than the number of rows or columns
 					printf("Square does not exist. Try again.\n");						//prints error message
->>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
+
 				}
 					else if(board[row][clm].stack == NULL){								//checks if there is a token on the selected square
 						printf("Empty square selected! Try again.\n");
@@ -319,14 +317,14 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 					board[row+1][0].numTokens++;
 					board[row+1][0].stack = push(temp, board[row+1][0].stack);
 					err = 0;
-=======
+
 			err = 1;					//initializes invalid input tracker
 			while(err != 0){	
 				scanf("%s", &upOrDown);	//reads input for upOrDown
 				
 				if((row == 0 && (upOrDown == 'u' || upOrDown == 'U')) || row == 5 && (upOrDown == 'd' || upOrDown == 'D')){	//if token is at the top or bottom row it cannot be moved up or down respectively
 					printf("Token cannot be moved in that direction. Try again.\n");
->>>>>>> dff9897f106ff0e2aa11a4a3dc31c8bcbb5cbf95
+
 				}
 					else if(upOrDown == 'u' || upOrDown == 'U'){								//checks if user input u or U
 						token * temp = board[row][clm].stack->token;							//temp is assigned the top token of the selected square
@@ -378,48 +376,38 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 		if(board[1][column].stack || board[2][column].stack|| board[3][column].stack || board[4][column].stack)
 		{
         	
-			printf("Do you want to move your adjacent counter, enter 'y' for yes and 'n' for no");
-			scanf("%c", &yesOrNo);		//reads input for yesOrNo
-			
-			if(yesOrNo == 'y' || yesOrNo == 'Y')
-			{
+			printf("Adjacent counter will be moved");
+		
 				if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
 				{
 					//Goes through board to make sure no above adjacent option is given for squares in the first row 
-				
+					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 					move_adjacent(board,-1,1, roll);	
 				}
 				
 				else if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
 				{
+					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 					move_adjacent(board, 1, 1, roll);
 				}
 				
 				else if(board[row-1][column].stack->token->col == players[playerNum].playercolor && board[row+1][column].stack->token->col == players[playerNum].playercolor)
 				{
-					printf("To move the counter above enter 'a' to move the counter below enter 'b'");
+					printf("You have two adjacent tokens,to move the counter above enter 'a' to move the counter below enter 'b'");
 					scanf("%c",above_below);
 					if(above_below == 'a' || yesOrNo == 'A')
 					{
+						obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 						move_adjacent(board,-1,1, roll);
 					}
 					
 					else if(above_below == 'b' || above_below == 'B')
 					{
+						obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 						move_adjacent(board,1,1,roll);
 					}
 				
 				}
-			
-			}
-		/*	
-		   else if(yesOrNo == 'n' || yesOrNo == 'N')
-		   {
-		   		printf("The counter on top of the chosen column will be moved");
-		   	
-				move_right (square board[NUM_ROWS][NUM_COLUMNS]);		
-		   }
-		*/
 		}
 
 		
@@ -432,6 +420,7 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 				
 				if(yesOrNo == 'y' || yesOrNo == 'Y')
 				{
+					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 					move_adjacent(board, 1, 1, roll);
 					
 				}
@@ -448,6 +437,7 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 				
 				if(yesOrNo == 'y' || yesOrNo == 'Y')
 				{
+					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 					move_adjacent(board, -1, 1, roll);
 					
 				}
@@ -478,22 +468,22 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 //	}
 //}
 //
-//void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
-//{
-// 
-//	for(int i = 0; i< NUM_ROWS ; i++)
-//	{
-//		for(int j=0;curr_column-1;j++)
-//		{
-//		
-//			if(board[i][curr_column].stack != NULL)
-//			{
-//				printf("You are caught in an obstacle! You cannot move until all tokens to your left are gone:(");
-//				return;
-//			}
-//		}
-//	}
-//}
+void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
+{
+ 
+	for(int i = 0; i< NUM_ROWS ; i++)
+	{
+		for(int j=0;curr_column-1;j++)
+		{
+		
+			if(board[i][curr_column].stack != NULL)
+			{
+				printf("You are caught in an obstacle! You cannot move until all tokens to your left are gone:(");
+				return;
+			}
+		}
+	}
+}
 
 //void winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
 //{
