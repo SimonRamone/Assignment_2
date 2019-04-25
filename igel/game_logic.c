@@ -261,6 +261,9 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 					printf("Square does not exist. Try again.\n");						//prints error message
 
 				}
+				else if(board[row][clm].stack == OBSTACLE){
+					printf("You have selected a token on an obstacle! Try again.\n");
+				}
 					else if(board[row][clm].stack == NULL){								//checks if there is a token on the selected square
 						printf("Empty square selected! Try again.\n");
 					}	

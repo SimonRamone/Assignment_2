@@ -49,6 +49,7 @@ int initialize_players(player players[]){
     int picked[6] = {0, 0, 0, 0, 0, 0};											//keeps track whether a colour has already been picked
     int i=0;																	//while loop increment variable (number of players)
     int j;																		//for loop increment variable
+    int playerwinning;
     int err;																	//keeps track of incomplete or invalid input
     int pick;																	//user selected colour
     while(i<6){
