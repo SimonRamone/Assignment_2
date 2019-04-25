@@ -208,7 +208,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		else if (x == 2) move_vertical(board, players, i);
 	move_right(board, dieRoll);
 	print_board(board);
-=======
+
     srand(time(NULL));										// sets the seed for the random number function
 	int dieRoll;											// number rolled
 	int i, j;												//for loop increment variable
@@ -449,25 +449,6 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 		}
 	}
 
-
-//void option2(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
-//{
-//	int col;
-//	printf("Enter the column you wish to have a counter move in");
-//	scanf("%d",&column);
-//	
-//	if(column>8)
-//	{
-//		printf("Invalid input");
-//	}
-//	
-//	while(column>8)
-//	{
-//		move_right(square board[NUM_ROWS][NUM_COLUMNS],1);
-//		f
-//	}
-//}
-//
 void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 {
  
