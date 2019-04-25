@@ -469,19 +469,21 @@ void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 	}
 }
 
-//void winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
-//{
-//	for(int i = 0; i< NUM_ROWS ; i++)
-//	{
-//		if(board[i][8].stack == players[playerNum].playercolor)
-//		{
-//			players[playerNum].playerwinning++;
-//			
-//		}
-//	}
-//
-//	
-//}
+void winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+{
+	for(int i = 0; i< NUM_ROWS ; i++)
+	{
+		if(board[i][8].stack == players[playerNum].playercolor)
+		{
+			players[playerNum].playerwinning++;
+			
+		}
+	}
+	int place
+	
+	
+	
+}
 
 
 
