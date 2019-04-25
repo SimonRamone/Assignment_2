@@ -19,7 +19,7 @@ void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) ;
 void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
-
+int winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 //function for adding a token on top of a stack
 struct stack_token * push(token *newtoken, struct stack_token *top){
     struct stack_token *curr = top;
@@ -379,19 +379,20 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 		if(board[1][column].stack || board[2][column].stack|| board[3][column].stack || board[4][column].stack)
 		{
         	
-			printf("Adjacent counter will be moved");
 		
-				if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
-				{
-					//Goes through board to make sure no above adjacent option is given for squares in the first row 
-					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
-					move_adjacent(board,-1,1, roll);	
+			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				//Goes through board to make sure no above adjacent option is given for squares in the first row 
+				obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
+					move_adjacent(board,-1,1, roll);
+					printf("Adjacent counter moved");	
 				}
 				
 				else if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
 				{
 					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 					move_adjacent(board, 1, 1, roll);
+					printf("Adjacent counter moved");
 				}
 				
 				else if(board[row-1][column].stack->token->col == players[playerNum].playercolor && board[row+1][column].stack->token->col == players[playerNum].playercolor)
@@ -402,12 +403,14 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 					{
 						obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 						move_adjacent(board,-1,1, roll);
+						printf("Adjacent counter moved");
 					}
 					
 					else if(above_below == 'b' || above_below == 'B')
 					{
 						obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
 						move_adjacent(board,1,1,roll);
+						printf("Adjacent counter moved");
 					}
 				
 				}
@@ -418,16 +421,9 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 		{
 			if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
 			{
-				printf("Do you want to move your adjacent counter, enter 'y' for yes and 'n' for no");
-				scanf("%c", &yesOrNo);		//reads input for yesOrNo
-				
-				if(yesOrNo == 'y' || yesOrNo == 'Y')
-				{
-					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
-					move_adjacent(board, 1, 1, roll);
-					
-				}
-				
+				obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
+				move_adjacent(board, 1, 1, roll);
+				printf("Adjacent counter moved");
 			}
 		}
 		
@@ -435,19 +431,10 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 		
 			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
 			{
-				printf("Do you want to move your adjacent counter, enter 'y' for yes and 'n' for no");
-				scanf("%c", &yesOrNo);		//reads input for yesOrNo
 				
-				if(yesOrNo == 'y' || yesOrNo == 'Y')
-				{
-					obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
-					move_adjacent(board, -1, 1, roll);
-					
-				}
-				else
-				{
-					break;
-				}
+				obstacle(square board[NUM_ROWS][NUM_COLUMNS],column);
+				move_adjacent(board, -1, 1, roll);
+				printf("Adjacent counter moved");
 			}
 		}
 	}
@@ -469,21 +456,22 @@ void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 	}
 }
 
-void winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
-{
-	for(int i = 0; i< NUM_ROWS ; i++)
-	{
-		if(board[i][8].stack == players[playerNum].playercolor)
-		{
-			players[playerNum].playerwinning++;
-			
-		}
-	}
-	int place
-	
-	
-	
-}
+//int winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+//{
+//	for(int i = 0; i< NUM_ROWS ; i++)
+//	{
+//		if(board[i][8].stack == players[playerNum].playercolor)
+//		{
+//			players[playerNum].playerwinning++;
+//			
+//		}
+//		return playerwinning;
+//	}
+//	int place
+//	
+//	
+//	
+//}
 
 
 
