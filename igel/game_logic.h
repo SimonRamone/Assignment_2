@@ -1,4 +1,4 @@
-
+#include <stdbool.h>
 /*
  * Prints the board
  * 
@@ -25,7 +25,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  *        players - the array of the players
  *        numPlayers - the number of players 
  */
-void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
+bool play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 
 
 

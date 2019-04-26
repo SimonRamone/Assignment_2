@@ -13,6 +13,7 @@
 
 #include "game_init.h"
 #include "game_logic.h"
+#include <stdbool.h>
 
 
 /*
@@ -45,7 +46,10 @@ int main(int argc, char** argv) {
     
     
     //manages the turns of the game and identifies a winner
-    play_game(board, players, numPlayers);
+    bool done = false;
+	while(!done){
+		done = play_game(board, players, numPlayers);
+	}
     print_board(board);
     return 0;
     

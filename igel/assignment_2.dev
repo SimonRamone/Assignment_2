@@ -32,7 +32,7 @@ CompilerSettings=0000000000000000000000000
 <<<<<<< HEAD
 UnitCount=11
 =======
-UnitCount=10
+UnitCount=8
 >>>>>>> 14b6320859f7b242f434caf6d0d2aee60f358cbf
 
 [VersionInfo]
@@ -113,20 +113,21 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=game_logic.o
-Folder=
-Compile=0
-Link=0
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit8]
 FileName=main.c
-CompileCpp=0
 Folder=
 Compile=1
 Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+CompileCpp=0
+
+[Unit8]
+FileName=Makefile.win
+CompileCpp=0
+Folder=
+Compile=0
+Link=0
 Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
