@@ -1,8 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+// To change this license header, choose License Headers in Project Properties.
+// To change this template file, choose Tools | Templates
+// and open the template in the editor.
+
 
 
 #include "game_init.h"
@@ -16,10 +16,12 @@ void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 void move_adj(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll);
 void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS], int row_increment, int col_increment, int roll);
 void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) ;
-void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
-int winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
+bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+bool isTokenInObstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+bool isBoardBehindClear(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+int countTokensinLastRow(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
 //function for adding a token on top of a stack
 struct stack_token * push(token *newtoken, struct stack_token *top){
     struct stack_token *curr = top;
@@ -365,8 +367,9 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
 			{
 				//Goes through board to make sure no above adjacent option is given for squares in the first row 
-				obstacle(board[NUM_ROWS][NUM_COLUMNS],column);  //Obstacle function is being called 
+				  //Obstacle function is being called 
 				move_adjacent(board,-1,1, roll);
+			    canMove(square board[NUM_ROWS][NUM_COLUMNS],column);
 				printf("Adjacent counter moved");	
 			}
 				
@@ -422,39 +425,61 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 	}
 }
 
-void obstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
+
+bool isBoardBehindClear(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 {
  
 	for(int i = 0; i< NUM_ROWS ; i++)
 	{
-		for(int j=0;curr_column-1;j++)
+		for(int j=0;j<curr_column-1;j++)
 		{
 		
-			if(board[i][curr_column].stack != NULL)
+			if(board[i][j].stack != NULL)
 			{
-				printf("You are caught in an obstacle! You cannot move until all tokens to your left are gone:(");
-				return;
+				printf("Board behind not clear");
+				return false;
 			}
 		}
 	}
+	
+	return true;
 }
 
-//int winner(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
-//{
-//	for(int i = 0; i< NUM_ROWS ; i++)
-//	{
-//		if(board[i][8].stack == players[playerNum].playercolor)
-//		{
-//			players[playerNum].playerwinning++;
-//			
-//		}
-//		return playerwinning;
-//	}
-//	int place
-//	
-//	
-//	
-//}
+bool isTokenInObstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column) 
+{
+	return board[NUM_ROWS][NUM_COLUMNS].type == OBSTACLE;
+}
+
+bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column) 
+{
+	if (isTokenInObstacle(board, curr_column) == false)
+	{
+		return true;
+	} 
+	else 
+	{
+		return isBoardBehindClear(board, curr_column);
+	}
+}
+
+
+int countTokensinLastRow(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+{
+	for(int i = 0; i< NUM_ROWS ; i++)
+	{
+		for(int j=0;j<8;j++)
+		{
+		
+			if(board[i][8].stack != NULL)
+			{
+				
+			}
+		}
+	}
+	
+	
+	
+}
 
 
 
