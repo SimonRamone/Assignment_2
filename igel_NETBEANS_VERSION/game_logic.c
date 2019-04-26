@@ -543,4 +543,3 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 
 
 
-
