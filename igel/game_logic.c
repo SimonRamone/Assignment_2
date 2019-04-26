@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 void printLine();
      
@@ -220,7 +221,7 @@ void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 	int row, clm;																		//selected row
 	char yesOrNo;																		//user input
 	char * upOrDown;																	//user
-
+}
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																		//selected row
 	int yesOrNo;																		//user input for yes or no
@@ -343,6 +344,8 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			}
 	}
 }
+}
+}
 
 void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll)
 {
@@ -369,13 +372,13 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 				//Goes through board to make sure no above adjacent option is given for squares in the first row 
 				  //Obstacle function is being called 
 				move_adjacent(board,-1,1, roll);
-			    canMove(square board[NUM_ROWS][NUM_COLUMNS],column);
+				canMove(board,column);
 				printf("Adjacent counter moved");	
 			}
 				
 			else if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
 			{
-				obstacle(board[NUM_ROWS][NUM_COLUMNS],column);  //Obstacle function is being called 
+				obstacle(board,column);  //Obstacle function is being called 
 				move_adjacent(board, 1, 1, roll);
 				printf("Adjacent counter moved");
 			}
@@ -406,7 +409,7 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 		{
 			if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
 			{
-				obstacle(board[NUM_ROWS][NUM_COLUMNS],column);  //Obstacle function is being called 
+				obstacle(board],column);  //Obstacle function is being called 
 				move_adjacent(board, 1, 1, roll);
 				printf("Adjacent counter moved");
 			}
@@ -417,13 +420,13 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
 			{
 				
-				obstacle(board[NUM_ROWS][NUM_COLUMNS],column);  //Obstacle function is being called 
+				obstacle(board,column);  //Obstacle function is being called 
 				move_adjacent(board, -1, 1, roll);
 				printf("Adjacent counter moved");
 			}
 		}
 	}
-}
+
 
 
 bool isBoardBehindClear(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
@@ -463,18 +466,52 @@ bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 }
 
 
-int countTokensinLastRow(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+int countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
 {
+	int playerColor = players[playerNum].playerColor;
+	struct stack_token *curr;
+	int redcounter=0,bluecounter=0,greencounter=0,yellowcounter=0,pinkcounter=0,orangecounter=0;
 	for(int i = 0; i< NUM_ROWS ; i++)
 	{
-		for(int j=0;j<8;j++)
+		if(board[i][NUM_COLUMNS].stack != NULL)
 		{
-		
-			if(board[i][8].stack != NULL)
+			curr=board[i][NUM_COLUMNS].stack;
+			while(curr!=NULL)
 			{
+				if(curr.token.col==RED)
+				{
+					redcounter++
+				}
 				
+				else if(curr.token.col==BLU)
+				{
+					bluecounter++
+				}
+				
+				else if(curr.token.col==GREEN)
+				{
+					greencounter++
+				}
+				
+				else if(curr.token.col==YELLOW)
+				{
+					yellowcounter++
+				}
+				
+				else if(curr.token.col==PINK
+				{
+					pinkcounter++
+				}
+				
+				else if(curr.token.col==ORANGE)
+				{
+					orangecounter++
+				}
 			}
+			if()	
+		
 		}
+		
 	}
 	
 	
