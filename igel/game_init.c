@@ -44,10 +44,12 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
  * Output: The number of players of the game
  */
 int initialize_players(player players[]){ 
+
     char *colors[6] = {"Red", "Blue", "Green", "Yellow", "Pink", "Orange"};		//for printing colour names
     int picked[6] = {0, 0, 0, 0, 0, 0};											//keeps track whether a colour has already been picked
     int i=0;																	//while loop increment variable (number of players)
     int j;																		//for loop increment variable
+    int playerwinning;
     int err;																	//keeps track of incomplete or invalid input
     int pick;																	//user selected colour
     while(i<6){

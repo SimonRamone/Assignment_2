@@ -1,8 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+// To change this license header, choose License Headers in Project Properties.
+// To change this template file, choose Tools | Templates
+// and open the template in the editor.
+
 
 
 #include "game_init.h"
@@ -11,10 +11,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+<<<<<<< HEAD
 #include <time.h>
+=======
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 
 void printLine();
+     
+void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
+void move_adj(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll);
+void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS], int row_increment, int col_increment, int roll);
+void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) ;
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
+<<<<<<< HEAD
 void move_adj(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll);
 void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS], int row_increment, int col_increment, int roll);
 void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll, int col)  ;
@@ -83,6 +92,13 @@ void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll, int col)
 
 
 
+=======
+void move_horizontal (square board[NUM_ROWS][NUM_COLUMNS], int roll);
+bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+bool isTokenInObstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+bool isBoardBehindClear(square board[NUM_ROWS][NUM_COLUMNS], int curr_column);
+int countTokensinLastRow(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 //function for adding a token on top of a stack
 struct stack_token * push(token *newtoken, struct stack_token *top){
     struct stack_token *curr = top;
@@ -111,6 +127,41 @@ char print_token(token *t){
     return '\0';
 }
 
+void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS],int row_increment,int col_increment, int roll) {
+	int column=0;
+	int row= roll;
+	token * temp = board[row+row_increment][column].stack->token;									//temp is assigned the top token of the selected square
+	stack_token * next = board[row+row_increment][column].stack->next;								//next is assigned the token uderneath the selected one
+	free(board[row+row_increment][column].stack);													//memory is freed for old top of stack
+	board[row+row_increment][column].stack = next;	
+
+	//places token on chosen cell
+	board[row][column].stack = push(temp, board[row][column].stack);				//square above selected gets new top token
+	board[row][column].numTokens++;	
+
+	//sorts out moving horizontally
+	temp = board[row][column].stack->token;									//temp is assigned the top token of the selected square
+	next = board[row][column].stack->next;								//next is assigned the token uderneath the selected one
+	free(board[row][column].stack);													//memory is freed for old top of stack
+	board[row][column].stack = next;
+
+	//places counter on chosen cell	
+	board[row][column+col_increment].stack = push(temp, board[row][column+col_increment].stack);				//square above selected gets new top token
+	board[row][column+col_increment].numTokens++;
+}
+void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll) 
+{
+	int column=0;
+	int row=roll;
+	token * temp = board[row][column].stack->token;									//temp is assigned the top token of the selected square
+	stack_token * next = board[row][column].stack->next;								//next is assigned the token uderneath the selected one
+	free(board[row][column].stack);													//memory is freed for old top of stack
+	board[row][column].stack = next;	
+			
+		//places token on chosen cell
+	board[row][column+1].stack = push(temp, board[row][column+1].stack);				//square above selected gets new top token
+	board[row][column+1].numTokens++;
+}
 /*
  * Prints the board
  * 
@@ -222,6 +273,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  *        numPlayers - the number of players  
  */
 
+<<<<<<< HEAD
 
 bool play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
 
@@ -257,12 +309,45 @@ bool play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
  	return done;
  	
  }
+=======
+void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
+
+    srand(time(NULL));							// sets the seed for the random number function
+	int dieRoll;
+	int i;
+	int x;
+  for(i=0;i<numPlayers; i++){
+  	printf("It's %s's turn!\n", players[i].name);
+	dieRoll = (rand() % NUM_ROWS);
+	printf("Number rolled: %d\n", dieRoll);
+	printf("Would you like to move an adjacent token (1) or any token (2) sideways?\n");
+	scanf("%d", &x);
+	if(x == 1) move_adj(board, players, i, dieRoll);
+	else if (x == 2) move_vertical(board, players, i);
+	move_right(board, dieRoll);
+	print_board(board);
+	}
+	
+	
+}
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 
 
+void move_vertical (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
+	int row, clm;																		//selected row
+	char yesOrNo;																		//user input
+	char * upOrDown;																	//user
+}
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum){
 	int row, clm;																		//selected row
+<<<<<<< HEAD
 	char yesOrNo;																		//user input for yes or no
 	char upOrDown;																	//user input for up or down
+=======
+	int yesOrNo;																		//user input for yes or no
+	char * upOrDown;																	//user input for up or down
+
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 	int err = 1;																		//invalid input tracker
 	printf("Do you want to move a token up or down? Y/N\n");							//asks user for input
 	while(err != 0){																	//loops until input is valid
@@ -273,10 +358,17 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			while(err != 0){															//loops until input for row is valid
 				printf("Enter row:");														
 				scanf("%d", &row);														//reads input for row
+
+				err == 1;																
+
 				printf("Enter column:");														
 				scanf("%d", &clm);
 				if(row >= NUM_ROWS || row < 0 || clm >= NUM_COLUMNS || clm < 0){		//if selected row or column is greater or smaller than the number of rows or columns
 					printf("Square does not exist. Try again.\n");						//prints error message
+
+				}
+				else if(board[row][clm].stack == OBSTACLE){
+					printf("You have selected a token on an obstacle! Try again.\n");
 				}
 					else if(board[row][clm].stack == NULL){								//checks if there is a token on the selected square
 						printf("Empty square selected! Try again.\n");
@@ -296,12 +388,55 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			}
 			
 			printf("Do you want to move it up or down? U/D\n");
+  
+			scanf("%c", &upOrDown);
+			
+			token * temp = board[row][0].stack->token;									//temp is assigned the top token of the selected square
+			stack_token * next = board[row][0].stack->next;								//next is assigned the token uderneath the selected one
+			free(board[row][0].stack);													//memory is freed for old top of stack
+			board[row][0].stack = next;													//selected square gets assigned new top
+			
+			if(upOrDown == 'u' || upOrDown == 'U'){										//checks if user input u or U
+				board[row-1][0].stack = push(temp, board[row-1][0].stack);				//square above selected gets new top token
+				board[row-1][0].numTokens++;											//number of tokens on new square is incremented
+				err = 0;																// no invalid input
+			}
+				else if (upOrDown == 'd' || upOrDown == 'D'){							//checks if user input d or D
+					board[row+1][0].stack = push(temp, board[row+1][0].stack);			//square below selected square get new top token
+					board[row+1][0].numTokens++;										//number of tokens on new square is incremented
+					err = 0;															//no invalid input
+				}		
+					else {
+						err = 1;
+					}
+					
+			while(err != 0){
+				printf("Invalid input. Try again.\n");
+				scanf("%s", &upOrDown);
+			
+			printf("%d", board[row][0].stack->next->token->col);
+			token * temp = board[row][0].stack->token;
+			stack_token * next = board[row][0].stack->next;
+			free(board[row][0].stack);
+			board[row][0].stack = board[row][0].stack->next;
+			
+			if(upOrDown == 'u' || upOrDown == 'U'){
+				board[row-1][0].stack = push(temp, board[row-1][0].stack);
+				board[row-1][0].numTokens++;
+				err = 0;
+			}
+				else if (upOrDown == 'd' || upOrDown == 'D'){
+					board[row+1][0].numTokens++;
+					board[row+1][0].stack = push(temp, board[row+1][0].stack);
+					err = 0;
+
 			err = 1;					//initializes invalid input tracker
 			while(err != 0){	
 				scanf("%s", &upOrDown);	//reads input for upOrDown
 				
 				if((row == 0 && (upOrDown == 'u' || upOrDown == 'U')) || row == 5 && (upOrDown == 'd' || upOrDown == 'D')){	//if token is at the top or bottom row it cannot be moved up or down respectively
 					printf("Token cannot be moved in that direction. Try again.\n");
+
 				}
 					else if(upOrDown == 'u' || upOrDown == 'U'){								//checks if user input u or U
 						token * temp = board[row][clm].stack->token;							//temp is assigned the top token of the selected square
@@ -333,8 +468,13 @@ void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int p
 			}
 	}
 }
+}
+}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll)
 {
 	char yesOrNo;
@@ -348,6 +488,162 @@ void move_adj (square board[NUM_ROWS][NUM_COLUMNS], player players[], int player
 	{
 		printf("Error invalid input");
     }
+<<<<<<< HEAD
+=======
+	
+	while(column<8)
+	{
+		if(row==1 || row==2||row==3 || row==4)
+		{
+        	
+		
+			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				//Goes through board to make sure no above adjacent option is given for squares in the first row 
+				  //Obstacle function is being called 
+				move_adjacent(board,-1,1, roll);
+				canMove(board,column);
+				printf("Adjacent counter moved");	
+			}
+				
+			else if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				obstacle(board,column);  //Obstacle function is being called 
+				move_adjacent(board, 1, 1, roll);
+				printf("Adjacent counter moved");
+			}
+				
+			else if(board[row-1][column].stack->token->col == players[playerNum].playercolor && board[row+1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				printf("You have two adjacent tokens,to move the counter above enter 'a' to move the counter below enter 'b'");
+				scanf("%c",above_below);
+				if(above_below == 'a' || yesOrNo == 'A')
+				{
+					obstacle(board[NUM_ROWS][NUM_COLUMNS],column);  //Obstacle function is being called 
+					move_adjacent(board,-1,1, roll);
+					printf("Adjacent counter moved");
+				}
+					
+				else if(above_below == 'b' || above_below == 'B')
+				{
+					obstacle(board[NUM_ROWS][NUM_COLUMNS],column);  //Obstacle function is being called 
+					move_adjacent(board,1,1,roll);
+					printf("Adjacent counter moved");
+				}
+				
+			}
+		}
+
+		
+		else if(row == 0)
+		{
+			if(board[row+1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				obstacle(board],column);  //Obstacle function is being called 
+				move_adjacent(board, 1, 1, roll);
+				printf("Adjacent counter moved");
+			}
+		}
+		
+		else if(row == 5)
+		
+			if(board[row-1][column].stack->token->col == players[playerNum].playercolor)
+			{
+				
+				obstacle(board,column);  //Obstacle function is being called 
+				move_adjacent(board, -1, 1, roll);
+				printf("Adjacent counter moved");
+			}
+		}
+	}
+
+
+
+bool isBoardBehindClear(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
+{
+ 
+	for(int i = 0; i< NUM_ROWS ; i++)
+	{
+		for(int j=0;j<curr_column-1;j++)
+		{
+		
+			if(board[i][j].stack != NULL)
+			{
+				printf("Board behind not clear");
+				return false;
+			}
+		}
+	}
+	
+	return true;
+}
+
+bool isTokenInObstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column) 
+{
+	return board[NUM_ROWS][NUM_COLUMNS].type == OBSTACLE;
+}
+
+bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column) 
+{
+	if (isTokenInObstacle(board, curr_column) == false)
+	{
+		return true;
+	} 
+	else 
+	{
+		return isBoardBehindClear(board, curr_column);
+	}
+}
+
+
+int countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum)
+{
+	int playerColor = players[playerNum].playerColor;
+	struct stack_token *curr;
+	int redcounter=0,bluecounter=0,greencounter=0,yellowcounter=0,pinkcounter=0,orangecounter=0;
+	for(int i = 0; i< NUM_ROWS ; i++)
+	{
+		if(board[i][NUM_COLUMNS].stack != NULL)
+		{
+			curr=board[i][NUM_COLUMNS].stack;
+			while(curr!=NULL)
+			{
+				if(curr.token.col==RED)
+				{
+					redcounter++
+				}
+				
+				else if(curr.token.col==BLU)
+				{
+					bluecounter++
+				}
+				
+				else if(curr.token.col==GREEN)
+				{
+					greencounter++
+				}
+				
+				else if(curr.token.col==YELLOW)
+				{
+					yellowcounter++
+				}
+				
+				else if(curr.token.col==PINK
+				{
+					pinkcounter++
+				}
+				
+				else if(curr.token.col==ORANGE)
+				{
+					orangecounter++
+				}
+			}
+			if()	
+		
+		}
+		
+	}
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 	
 	if(column<9)
 	{
@@ -443,6 +739,7 @@ bool isBoardBehindClear(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 		}
 	}
 	
+<<<<<<< HEAD
 	return true;
 }
 
@@ -450,6 +747,13 @@ bool isTokenInObstacle(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 {
 	return board[NUM_ROWS][NUM_COLUMNS].type == OBSTACLE;
 }
+=======
+	
+}
+
+
+
+>>>>>>> 976b0b43b3b377672773375a6611419aedff2596
 
 bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column) 
 {
