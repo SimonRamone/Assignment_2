@@ -13,8 +13,10 @@
 #include <stdbool.h>
 #include <time.h>
 
-void printLine();
-     
+
+void printLine(); 
+
+void checkObstacle(square board[NUM_ROWS][NUM_COLUMNS]);													//changes obstacles to normal squares when there are no more tokens behind the obstacle
 void move_sideways (square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum);						//function for moving a token up or down
 void move_adj(square board[NUM_ROWS][NUM_COLUMNS], player players[], int playerNum, int roll);
 void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS], int row_increment, int col_increment, int roll);
@@ -61,7 +63,7 @@ void move_adjacent (square board[NUM_ROWS][NUM_COLUMNS],int row_increment,int co
 }
 
 void move_right (square board[NUM_ROWS][NUM_COLUMNS], int roll, int col) 
-{
+{	
 	int column=col;
 	int row=roll;
 	token * temp = board[row][column].stack->token;									//temp is assigned the top token of the selected square
@@ -123,7 +125,10 @@ void print_board(square board[NUM_ROWS][NUM_COLUMNS]){
         for (j = 0; j < NUM_COLUMNS; j++){
         	//if the square (i,j) is empty
                 //c is assigned 'X' if the square represents an obstacle
-            if(board[i][j].type == OBSTACLE){
+            if(board[i][j].type == OBSTACLE && board[i][j].stack != NULL){
+            	c = print_token(board[i][j].stack->token);
+			}
+			else if(board[i][j].type == OBSTACLE){
             	c = 'X';
 			}
                   
@@ -136,8 +141,10 @@ void print_board(square board[NUM_ROWS][NUM_COLUMNS]){
 				} 
             
             
-            
-            printf("| %c ", c);
+            if(board[i][j].type == OBSTACLE && board[i][j].stack != NULL){
+            	printf("| %c!", c);											//prints ! after token color letter to indicate that the token is on an obstacle square
+			}
+            	else printf("| %c ", c);
         }
         printf ("|\n");
     }
@@ -240,17 +247,26 @@ bool play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				if(board[dieRoll][j].stack != NULL && j != NUM_COLUMNS-1 && board[dieRoll][j].type != OBSTACLE) err=0;		//checks if there is still atleast one movable token on the rolled row
 			}
 			if(err == 0){
-				printf("Which token would you like to move forward in row %d?\n", dieRoll);
-				printf("Enter column:");
-				scanf("%d", &col);
-				move_right(board, dieRoll,col);						//function for moving the token in the selected column and rolled row one square forward
+				err = 1;
+				while(err != 0){
+					printf("Which token would you like to move forward in row %d?\n", dieRoll);
+					printf("Enter column:");
+					scanf("%d", &col);
+					if(board[dieRoll][col].type != OBSTACLE){
+						move_right(board, dieRoll,col);						//function for moving the token in the selected column and rolled row one square forward
+						err = 0;
+					}
+						else printf("Invalid token selected. Try again.\n");
+				}
+				
 			}
-				else if (err > 0) printf("There are tokens that can be moved forward in row %d. Skipping turn.\n", dieRoll);												
+				else if (err > 0) printf("There are no tokens that can be moved forward in row %d. Skipping turn.\n", dieRoll);												
 		}
 		else if (x == 2){
 			move_adj(board, players, i, dieRoll);												//Anu's function for moving a token up or down
 		}
 		printf("\n");
+		checkObstacle(board);
 		print_board(board);
 		done = countTokensInLastColumn(board, players);											//keeps track of each players tokens in last column and prints winner		
  	}
@@ -459,25 +475,28 @@ bool canMove(square board[NUM_ROWS][NUM_COLUMNS], int curr_column)
 	}
 }
 
+
+
+
 bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players[])
 {
+	int redcounter=0,bluecounter=0,greencounter=0,yellowcounter=0,pinkcounter=0,orangecounter=0;
 	struct stack_token *curr;
 	bool finished = false;
-	int redcounter=0,bluecounter=0,greencounter=0,yellowcounter=0,pinkcounter=0,orangecounter=0;
 	int i;
-	for(i = 0; i< NUM_ROWS && !finished ; i++)
+	for(i = 0; i< NUM_ROWS && !finished; i++)
 	{
 		if(board[i][8].stack != NULL)
 		{
 			curr=board[i][8].stack;
-			while(curr!=NULL && !finished)
+			while(!finished)
 			{
 				if(curr->token->col==RED)
 				{
 					redcounter++;
 					if(redcounter==3){
 						finished = true;
-						printf("Red player wins");
+						printf("Red player wins\n");
 					}
 				}
 				
@@ -486,7 +505,7 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 					bluecounter++;
 					if(bluecounter==3){					
 						finished = true;
-						printf("Blue player wins");
+						printf("Blue player wins\n");
 					}
 				}
 				
@@ -496,7 +515,7 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 					if(greencounter==3){
 					
 						finished = true;
-						printf("Green player wins");
+						printf("Green player wins\n");
 					}
 				}
 				
@@ -505,7 +524,7 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 					yellowcounter++;
 					if(yellowcounter==3){
 						finished = true;
-						printf("Yellow player wins");
+						printf("Yellow player wins\n");
 					}
 						
 				}
@@ -515,7 +534,7 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 					pinkcounter++;
 					if(pinkcounter==3){
 						finished = true;
-						printf("Pink player wins");
+						printf("Pink player wins\n");
 					}
 						
 				}
@@ -525,7 +544,7 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 					orangecounter++;
 					if(orangecounter==3){
 						finished = true;
-						printf("Orange player wins");
+						printf("Orange player wins\n");
 					}
 				}
 			}
@@ -534,13 +553,29 @@ bool countTokensInLastColumn(square board[NUM_ROWS][NUM_COLUMNS], player players
 		}
 		
 	}
-	if(finished){
-		printf("here");
-	}
-	return finished;
 	
+	return finished;	
 }
 
+//changes obstacles to normal squares when there are no more tokens behind the obstacle
+void checkObstacle(square board[NUM_ROWS][NUM_COLUMNS]){
+	int i, j;						//for loop increment variables used for iterating through all the squares
+	int m, n;						//for loop increment variables used for iterating through all the squares behind a column with an obstacle
+	int numTokens;					//number of squares with atleast one token behind a column with an obstacle
+	for(i = 0; i< NUM_ROWS ; i++){
+		for(j=0;j<NUM_COLUMNS;j++){
+			if(board[i][j].type == OBSTACLE){			//if a obstacle square is found, function loops through all the squares behind that column and counts squares that are not free
+				numTokens = 0;							//initializes numTokens
+				for(m = 0; m< NUM_ROWS; m++){			//loops trhough all rows	
+					for(n=0;n< j;	n++){				//loops through columns up to but not including the column with the obstacle
+						if(board[m][n].stack != NULL) numTokens++;		//keeps track of number of squares with atleast one token
+					}
+				}
+				if(numTokens == 0) board[i][j].type = NORMAL;			//if there are no tokens behind a column with an obstacle square, the square becomes normal
+			}
+		}
+	}
+}
 
 
 
